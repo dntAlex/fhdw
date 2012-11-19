@@ -35,7 +35,7 @@ public class TestInsertion {
 	@Test
 	public void testEmpty() {
 		InsertionManager mng = InsertionManager.create(buffer);
-		assertEquals(StopSignal.getInstance(), mng.getSmallestRemaining());
+		assertEquals(StopSignal.getInstance(), mng.get());
 	}
 	
 	@Test
@@ -43,8 +43,19 @@ public class TestInsertion {
 		buffer.put(this.zero);
 		
 		InsertionManager mng = InsertionManager.create(buffer);
-		assertEquals(zero, mng.getSmallestRemaining());
-		assertEquals(StopSignal.getInstance(), mng.getSmallestRemaining());
+		assertEquals(zero, mng.get());
+		assertEquals(StopSignal.getInstance(), mng.get());
+	}
+
+	@Test
+	public void testEquals() {
+		buffer.put(this.zero);
+		buffer.put(this.zero);
+		
+		InsertionManager mng = InsertionManager.create(buffer);
+		assertEquals(zero, mng.get());
+		assertEquals(zero, mng.get());
+		assertEquals(StopSignal.getInstance(), mng.get());
 	}
 	
 	@Test
@@ -53,9 +64,9 @@ public class TestInsertion {
 		buffer.put(this.ten);
 		
 		InsertionManager mng = InsertionManager.create(buffer);
-		assertEquals(ten, mng.getSmallestRemaining());
-		assertEquals(fourtyTwo, mng.getSmallestRemaining());
-		assertEquals(StopSignal.getInstance(), mng.getSmallestRemaining());
+		assertEquals(ten, mng.get());
+		assertEquals(fourtyTwo, mng.get());
+		assertEquals(StopSignal.getInstance(), mng.get());
 	}
 
 	@Test
@@ -67,12 +78,12 @@ public class TestInsertion {
 		buffer.put(this.oneNegative);
 		
 		InsertionManager mng = InsertionManager.create(buffer);
-		assertEquals(oneNegative, mng.getSmallestRemaining());
-		assertEquals(zero, mng.getSmallestRemaining());
-		assertEquals(ten, mng.getSmallestRemaining());
-		assertEquals(fourtyTwo, mng.getSmallestRemaining());
-		assertEquals(big, mng.getSmallestRemaining());
-		assertEquals(StopSignal.getInstance(), mng.getSmallestRemaining());
+		assertEquals(oneNegative, mng.get());
+		assertEquals(zero, mng.get());
+		assertEquals(ten, mng.get());
+		assertEquals(fourtyTwo, mng.get());
+		assertEquals(big, mng.get());
+		assertEquals(StopSignal.getInstance(), mng.get());
 	}
 	
 }

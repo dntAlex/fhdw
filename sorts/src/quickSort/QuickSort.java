@@ -12,6 +12,9 @@ public class QuickSort implements Runnable {
 	
 	private boolean isAlive;
 	
+	/**
+	 * Constructor.
+	 */
 	private QuickSort(Buffer<MyComparable> input) {
 		this.input = input;
 		this.output = new Buffer<MyComparable>();
@@ -22,13 +25,13 @@ public class QuickSort implements Runnable {
 		new Thread(this).start();
 	}
 	
+	/**
+	 * Factory method.
+	 */
 	public static QuickSort create(Buffer<MyComparable> input) {
 		return new QuickSort(input);
 	}
 	
-	/**
-	 * First Element needs to be a Comparable.
-	 */
 	@Override
 	public void run() {
 		final MyComparable pivot = this.getInput().get();
@@ -45,7 +48,14 @@ public class QuickSort implements Runnable {
 			}
 		}
 	}
-
+	
+	/**
+	 * If the element returned by this <input> is an StopSignal, it will be put into this
+	 * <left> and <right> buffer and this Thread will be killed. Otherwise the element is
+	 * compared with <pivot> and put to <left> if it is smaller or equals <pivot>. Otherwise
+	 * it will be placed into <right>.
+	 * @param pivot
+	 */
 	private void split(MyComparable pivot) {
 		final MyComparable comp = this.getInput().get();
 	
@@ -60,10 +70,15 @@ public class QuickSort implements Runnable {
 		
 	}
 	
-	public MyComparable getSmallestElement() {
+	/**
+	 * Returns the first element returned by this output.
+	 */
+	public MyComparable getFirstElement() {
 		return this.getOutput().get();
 	}
 
+	/* Getter and Setter */
+	
 	/**
 	 * @return the input
 	 */

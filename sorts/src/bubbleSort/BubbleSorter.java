@@ -13,6 +13,9 @@ public class BubbleSorter implements Runnable {
 	private boolean alive;
 	private boolean swapped;
 	
+	/**
+	 * Constructor.
+	 */
 	public BubbleSorter(Buffer<MyComparable> source, Buffer<MyComparable> target) {
 		this.source = source;
 		this.target = target;
@@ -28,8 +31,15 @@ public class BubbleSorter implements Runnable {
 			this.sort();
 		}
 	}
-
-	public void sort() {
+	
+	/**
+	 * Compares the two MyComparables <left> and <right> if <left> is not a StopSignal. 
+	 * Puts <right> to the target buffer if it is smaller or equals <left>, otherwise 
+	 * <left> will be given to the <target> buffer. If <left> is a StopSignal, <right> 
+	 * and a StopSignal will be given to the <target> buffer and this instance will
+	 * kill it's Thread.
+	 */
+	private void sort() {
 		MyComparable comp = this.getSource().get();
 		
 		if(!comp.isStopSignal()) {
@@ -47,6 +57,16 @@ public class BubbleSorter implements Runnable {
 			if(!this.isSwapped()) BubbleSortManager.getInstance().getLock().unlock();
 			this.setAlive(false);
 		}
+	}
+	
+	/**
+	 * Set this swapped to swapped.
+	 * If a true swap occurs for the first time, a new BubbleSorter will be created with this
+	 * target as input. 
+	 */
+	public void setSwapped(boolean swapped) {
+		if(!isSwapped() && swapped) BubbleSortManager.getInstance().nextSorter(this.getTarget());
+		this.swapped = swapped;
 	}
 	
 	/* Getter and Setter */
@@ -71,8 +91,6 @@ public class BubbleSorter implements Runnable {
 		this.right = right;
 	}
 
-
-
 	public boolean isAlive() {
 		return alive;
 	}
@@ -87,11 +105,6 @@ public class BubbleSorter implements Runnable {
 
 	public boolean isSwapped() {
 		return swapped;
-	}
-
-	public void setSwapped(boolean swapped) {
-		if(!isSwapped() && swapped) BubbleSortManager.getInstance().nextSorter(this.getTarget());
-		this.swapped = swapped;
 	}
 	
 }

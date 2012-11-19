@@ -12,6 +12,9 @@ public class InsertionSorter implements Runnable {
 	
 	private boolean isAlive;
 	
+	/**
+	 * Constructor.
+	 */
 	private InsertionSorter(MyComparable myComparable, final Buffer<MyComparable> input, final Buffer<MyComparable> output) {
 		this.sorted = input;
 		this.output = output;
@@ -21,22 +24,25 @@ public class InsertionSorter implements Runnable {
 		new Thread(this).start();
 	}
 
+	/**
+	 * Factory method.
+	 */
 	public static InsertionSorter create(MyComparable myComparable, Buffer<MyComparable> input, Buffer<MyComparable> output) {
 		return new InsertionSorter(myComparable, input, output);
 	}
 	
-	/**
-	 * First element must be a Comparable. Need to compare StopSignals with
-	 * Comparables.
-	 */
 	@Override
 	public void run() {
-		while(this.isAlive) {
+		while(this.isAlive()) {
 			this.sort();
 		}
 		this.placeInOutput();
 	}
 	
+	/**
+	 * Puts every element if this <sorted> into this output until a
+	 * StopSignal is returned by this <sorted>.
+	 */
 	private void placeInOutput() {
 		MyComparable comp = this.getSorted().get();
 		while (!comp.isStopSignal()) {
@@ -45,7 +51,12 @@ public class InsertionSorter implements Runnable {
 		}
 		this.getOutput().put(comp);
 	}
-
+	
+	/**
+	 * Puts the element returned by this <sorted> into this <output> if
+	 * it is greater than this <comparable>. Otherwise this <comparable> will
+	 * be put into this <output> and the Sorter terminates it's Thread. 
+	 */
 	private void sort() {
 		MyComparable comp = this.getSorted().get();
 		if(this.getMyComparable().lessEquals(comp)) {
@@ -54,25 +65,24 @@ public class InsertionSorter implements Runnable {
 		}
 		this.getOutput().put(comp);
 	}
-
+	
+	/* Getter and Setter */
+	
 	public Buffer<MyComparable> getSorted() {
-		return sorted;
+		return this.sorted;
 	}
 	public Buffer<MyComparable> getOutput() {
-		return output;
+		return this.output;
 	}
 
-	public boolean isAlive() {
-		return isAlive;
+	private boolean isAlive() {
+		return this.isAlive;
 	}
 
-	public void setAlive(boolean isAlive) {
+	private void setAlive(boolean isAlive) {
 		this.isAlive = isAlive;
 	}
 
-	/**
-	 * @return the myComparable
-	 */
 	private MyComparable getMyComparable() {
 		return this.myComparable;
 	}

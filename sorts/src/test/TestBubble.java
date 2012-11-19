@@ -27,6 +27,7 @@ public class TestBubble {
 		buffer0.put(Int.create(3));
 		buffer0.put(Int.create(989));
 		buffer0.put(Int.create(984));
+		buffer0.put(Int.create(984));
 		buffer0.put(Int.create(1));
 	}
 	

@@ -36,7 +36,7 @@ public class TestQuickSort {
 	public void testEmpty() {
 		buffer.put(StopSignal.getInstance());
 		QuickSort qs = QuickSort.create(buffer);
-		assertEquals(StopSignal.getInstance(), qs.getSmallestElement());
+		assertEquals(StopSignal.getInstance(), qs.getFirstElement());
 	}
 	
 	@Test
@@ -45,8 +45,20 @@ public class TestQuickSort {
 		buffer.put(StopSignal.getInstance());
 		
 		QuickSort qs = QuickSort.create(buffer);
-		assertEquals(zero, qs.getSmallestElement());
-		assertEquals(StopSignal.getInstance(), qs.getSmallestElement());
+		assertEquals(zero, qs.getFirstElement());
+		assertEquals(StopSignal.getInstance(), qs.getFirstElement());
+	}
+	
+	@Test
+	public void testEquals() {
+		buffer.put(this.zero);
+		buffer.put(this.zero);
+		buffer.put(StopSignal.getInstance());
+		
+		QuickSort qs = QuickSort.create(buffer);
+		assertEquals(zero, qs.getFirstElement());
+		assertEquals(zero, qs.getFirstElement());
+		assertEquals(StopSignal.getInstance(), qs.getFirstElement());
 	}
 	
 	@Test
@@ -56,11 +68,12 @@ public class TestQuickSort {
 		buffer.put(StopSignal.getInstance());
 		
 		QuickSort qs = QuickSort.create(buffer);
-		assertEquals(ten, qs.getSmallestElement());
-		assertEquals(fourtyTwo, qs.getSmallestElement());
-		assertEquals(StopSignal.getInstance(), qs.getSmallestElement());
+		assertEquals(ten, qs.getFirstElement());
+		assertEquals(fourtyTwo, qs.getFirstElement());
+		assertEquals(StopSignal.getInstance(), qs.getFirstElement());
 	}
 
+	@Test
 	public void test() {
 		buffer.put(this.big);
 		buffer.put(this.ten);
@@ -70,11 +83,12 @@ public class TestQuickSort {
 		buffer.put(StopSignal.getInstance());
 		
 		QuickSort qs = QuickSort.create(buffer);
-		assertEquals(oneNegative, qs.getSmallestElement());
-		assertEquals(zero, qs.getSmallestElement());
-		assertEquals(fourtyTwo, qs.getSmallestElement());
-		assertEquals(big, qs.getSmallestElement());
-		assertEquals(StopSignal.getInstance(), qs.getSmallestElement());
+		assertEquals(oneNegative, qs.getFirstElement());
+		assertEquals(zero, qs.getFirstElement());
+		assertEquals(ten, qs.getFirstElement());
+		assertEquals(fourtyTwo, qs.getFirstElement());
+		assertEquals(big, qs.getFirstElement());
+		assertEquals(StopSignal.getInstance(), qs.getFirstElement());
 	}
 
 }
